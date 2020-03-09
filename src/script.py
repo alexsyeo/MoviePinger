@@ -83,19 +83,13 @@ with open('data/data.json', 'r+') as jsonfile:
                 moviesToSend.append(movie)
         if moviesToSend:
             # Send email with movie information
-            print('before first send')
             sendMovieInfoEmail(moviesToSend)
 
-            print('After send')
-            
             # Add movies to files
             storedResults.extend(moviesToSend)
             json.dump(storedResults, jsonfile)
-            print('After dump')
-
     except:
         # Send email with movie information
-        print('before second send')
         sendMovieInfoEmail(results)
         
         # Add movies to files
