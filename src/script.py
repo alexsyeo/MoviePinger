@@ -1,5 +1,6 @@
 # Note: Data comes from TMDb (themoviedb.org).
 
+import datetime
 import json
 import requests
 import smtplib, ssl
@@ -10,6 +11,10 @@ API_KEY = 'f435496701f9d73f755d5bfb6cd880aa'
 API_ENDPOINT = f'https://api.themoviedb.org/3/movie/upcoming?api_key={API_KEY}&language=en-US&region=US&page='
 SENDER_EMAIL = input("Type in sender email address and press enter: ")
 RECEIVER_EMAIL = input("Type in receiver email address and press enter: ")
+
+# Returns the current date and time
+def getNow():
+    return datetime.datetime.now().strftime("%c")
 
 # Sends API GET request to fetch movie data
 def requestMovies(pageNum):
@@ -29,10 +34,11 @@ def filterMovies(movies):
 
 # Takes in movie info as JSON data and converts to email message string (utf-8 encoded)
 def constructEmailMessage(movieInfo):
+    emailSubject = f'Subject: [{getNow()}] Upcoming movies from MoviePinger'
     emailMessage = ''
     for movie in movieInfo:
         emailMessage += f'Title: {movie["title"]}\nPopularity: {movie["popularity"]}\nRelease Date: {movie["release_date"]}\nOverview: {movie["overview"]}\n\n\n'
-    return emailMessage.encode("utf-8")
+    return (emailSubject + '\n\n' + emailMessage).encode("utf-8")
 
 
 # Send email with movie information
