@@ -4,13 +4,14 @@ import datetime
 import json
 import requests
 import smtplib, ssl
-
-from getpass import getpass
+import sys
 
 API_KEY = 'f435496701f9d73f755d5bfb6cd880aa'
 API_ENDPOINT = f'https://api.themoviedb.org/3/movie/upcoming?api_key={API_KEY}&language=en-US&region=US&page='
-SENDER_EMAIL = input("Type in sender email address and press enter: ")
-RECEIVER_EMAIL = input("Type in receiver email address and press enter: ")
+
+SENDER_EMAIL = sys.argv[1]
+RECEIVER_EMAIL = sys.argv[2]
+SENDER_PASSWORD = sys.argv[3]
 
 # Returns the current date and time
 def getNow():
@@ -47,9 +48,6 @@ def sendMovieInfoEmail(movieInfo):
     port = 465
     smtp_server = "smtp.gmail.com"
 
-    print("Enter password of sender email address.")
-    password = getpass()
-
     # Create the content of the email
     message = constructEmailMessage(movieInfo)
 
@@ -58,7 +56,7 @@ def sendMovieInfoEmail(movieInfo):
 
     # Send the email
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-        server.login(SENDER_EMAIL, password)
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, message)
 
 
