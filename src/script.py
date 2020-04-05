@@ -8,7 +8,6 @@ import sys
 
 API_KEY = 'f435496701f9d73f755d5bfb6cd880aa'
 API_ENDPOINT = f'https://api.themoviedb.org/3/movie/upcoming?api_key={API_KEY}&language=en-US&region=US&page='
-
 SENDER_EMAIL = sys.argv[1]
 RECEIVER_EMAIL = sys.argv[2]
 SENDER_PASSWORD = sys.argv[3]
@@ -78,7 +77,7 @@ results = filterMovies(results)
 
 # Check local file to see if the movies have already been pinged before
 # NOTE: Currently assumes that the file exists
-with open('data/data.json', 'r+') as jsonfile:
+with open('../data/data.json', 'r+') as jsonfile:
     try:
         storedResults = json.load(jsonfile)
         moviesToSend = []
